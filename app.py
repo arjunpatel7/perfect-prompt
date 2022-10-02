@@ -4,8 +4,8 @@ import pandas as pd
 import cohere
 from cohere.classify import Example
 
-COHERE_KEY = open("cohere-key.txt", "r").readlines(0)[0][:-1]
-
+#COHERE_KEY = open("cohere-key.txt", "r").readlines(0)[0][:-1]
+COHERE_KEY = st.secrets["cohere_key"]
 co = cohere.Client(f'{COHERE_KEY}')
 # using this script as an example: https://github.com/lablab-ai/streamlit-cohere-boilerplate/blob/main/myapp.py
 
