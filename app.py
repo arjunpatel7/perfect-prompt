@@ -110,7 +110,7 @@ using one takes forever? Never fear, Perfect Prompt to the rescue! Perfect Promp
  4. Take a few, throw them into your prompt, and repeat! Enjoy! \n
  
  Finally, please use this tool ethically and follow guidance mentioned in the 
- Replicate [deployment] (https://replicate.com/stability-ai/stable-diffusion). Also be aware that currently, any images
+ [Replicate deployment](https://replicate.com/stability-ai/stable-diffusion). Also be aware that currently, any images
  made are logged to Arjun Patel's dashboard in Replicate, and may be viewed there. Thank you! 
  """
 with st.expander("Instructions, click here!"):
