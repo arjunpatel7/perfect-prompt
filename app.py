@@ -80,7 +80,7 @@ KNOWN_ART_STYLES = {
     "cyberpunk": ":sunglasses:",
     "kawaii": ":heart:",
     "photorealistic": ":camera:",
-    "water colors": ":rainbow:"
+    "water colors": ":rainbow:",
     "steampunk" : ":steam_locomotive:"
 }
 
