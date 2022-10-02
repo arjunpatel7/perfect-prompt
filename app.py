@@ -57,7 +57,8 @@ def make_and_grade_variations(df, input_prompt, num_options=5):
     if len(input_prompt) == 0:
         return
     # generate the image
-    st.session_state.image = replicate_model.predict(prompt=input_prompt) + st.session_state.image
+    st.session_state.image = replicate_model.predict(prompt=input_prompt,
+                                                     seed=777) + st.session_state.image
     keyword = classify_prompts(df, [input_prompt]).classifications[0].prediction
     generated = create_variations(create_prompt(input_prompt, keyword))
     list_of_gens = []
@@ -162,5 +163,3 @@ with tab3:
 with tab4:
     if st.session_state.image != "":
         st.image(st.session_state.image)
-
-
