@@ -86,6 +86,18 @@ KNOWN_ART_STYLES = {
 
 st.title(':art: Perfect Prompt!')
 st.subheader('Get your prompt perfect before image generation, and save time!')
+flavor_text = """
+Have you ever used an image generation model like Stable Diffusion, but found that 
+using one takes forever? Never fear, Perfect Prompt to the rescue! Perfect Prompt combines classification 
+ and generation large language models to help you come up with your... Perfect Prompt.
+ 
+ Currently, Perfect Prompt works with only five categories. Type a prompt, and we match it to an art style. 
+ Then, the model uses a generator finetuned on over a thousand Stable Diffusion prompts to provide you 
+ keyword suggestions for your next prompt. The generations are then filtered again by the classifier, and the top
+ suggestions are shown to you! Take a few, throw them into your prompt, and repeat! Enjoy!
+ """
+st.caption(flavor_text)
+
 
 df = preprocess_df(df)
 input = st.text_area('Enter your prospective prompts  here', height=100, value = "")
