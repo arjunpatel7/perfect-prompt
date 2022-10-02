@@ -107,7 +107,11 @@ using one takes forever? Never fear, Perfect Prompt to the rescue! Perfect Promp
  prompts to provide you keyword suggestions for your next prompt.\n
  3. The generations are then filtered again by the classifier, and the top
  suggestions are shown to you!\n
- 4. Take a few, throw them into your prompt, and repeat! Enjoy!
+ 4. Take a few, throw them into your prompt, and repeat! Enjoy! \n
+ 
+ Finally, please use this tool ethically and follow guidance mentioned in the 
+ [Replicate deployment] (https://replicate.com/stability-ai/stable-diffusion). Also be aware that currently, any images
+ made are logged to Arjun Patel's dashboard in Replicate, and may be viewed there. Thank you! 
  """
 with st.expander("Instructions, click here!"):
     st.markdown(flavor_text)
