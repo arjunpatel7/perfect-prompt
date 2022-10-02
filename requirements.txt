@@ -2,3 +2,4 @@ cohere
 pandas
 numpy
 streamlit
+replicate
