@@ -12,7 +12,8 @@ co = cohere.Client(f'{COHERE_KEY}')
 if ('output' not in st.session_state) and ('history' not in st.session_state):
     st.session_state['output'] = []
     st.session_state['history'] = []
-    st.session_state['image'] = ""
+    st.session_state['image'] = []
+    st.session_state["previous_prompts"] = []
 
 # function to accept a prompt and classify it?
 df = pd.read_csv("lexica_prompts_df.csv")
@@ -56,7 +57,7 @@ def make_and_grade_variations(df, input_prompt, num_options=5):
     if len(input_prompt) == 0:
         return
     # generate the image
-    st.session_state.image = replicate_model.predict(prompt=input_prompt)
+    st.session_state.image = replicate_model.predict(prompt=input_prompt) + st.session_state.image
     keyword = classify_prompts(df, [input_prompt]).classifications[0].prediction
     generated = create_variations(create_prompt(input_prompt, keyword))
     list_of_gens = []
@@ -136,16 +137,17 @@ with st.expander("How was this made?"):
 df = preprocess_df(df)
 input = st.text_area('Enter your prospective prompt here', height=100, value="")
 if input != "":
+    st.session_state.previous_prompts = st.session_state.previous_prompts + [input]
     button_click = st.button('Generate Variations', on_click=make_and_grade_variations(df, input_prompt=input))
     st.header("We think you are trying to make art in the following style...")
     predicted_class = classify_prompts(df, [input]).classifications[0].prediction
     st.subheader(predicted_class + KNOWN_ART_STYLES[predicted_class])
 
-if st.session_state.image != "":
+if st.session_state.image != []:
     st.image(st.session_state.image[0])
 
 st.subheader("Suggestions will populate below. Try using keywords from them, and add them to your prompt!")
-tab1, tab2 = st.tabs(["Output", "Generated Prompt History"])
+tab1, tab2, tab3, tab4 = st.tabs(["Output", "Generated Prompt History", "Input Prompt History", "Image History"])
 with tab1:
     st.write(st.session_state.output)
 
@@ -153,10 +155,12 @@ st.session_state.history = st.session_state.history + st.session_state.output
 with tab2:
     # with st.expander("History of output"):
     st.write(st.session_state.history)
-# create a text box and button for submitting initial prompt
+st.session_state.previous_prompts = st.session_state.previous_prompts + [input]
+with tab3:
+    st.write(st.session_state.previous_prompts)
 
-# create a text area to dump variations/save them
+with tab4:
+    if st.session_state.image != "":
+        st.image(st.session_state.image)
 
-# create a suggestion tab?
 
-# use replicate to serve stable diffusion models
