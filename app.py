@@ -3,20 +3,25 @@ import numpy as np
 import pandas as pd
 import cohere
 from cohere.classify import Example
+import replicate
 
 #COHERE_KEY = open("cohere-key.txt", "r").readlines(0)[0][:-1]
 COHERE_KEY = st.secrets["cohere_key"]
 co = cohere.Client(f'{COHERE_KEY}')
+
 # using this script as an example: https://github.com/lablab-ai/streamlit-cohere-boilerplate/blob/main/myapp.py
 
 if ('output' not in st.session_state) and ('history' not in st.session_state):
     st.session_state['output'] = []
     st.session_state['history'] = []
+    st.session_state['image'] = ""
 
 # function to accept a prompt and classify it?
 df = pd.read_csv("lexica_prompts_df.csv")
 
 MODEL_NAME = "da1454fc-2118-4174-b26a-5173f4fc79a6-ft"
+replicate_model = replicate.models.get("stability-ai/stable-diffusion")
+
 def preprocess_df(df):
     for k in df.keyword.unique():
         df["prompts_without_keywords"] = df.prompt.apply(lambda x: x.replace(k, ""))
@@ -51,6 +56,8 @@ def make_and_grade_variations(df, input_prompt, num_options = 5):
     #implement more generations
     if len(input_prompt) == 0:
         return
+    #generate the image
+    st.session_state.image = replicate_model.predict(prompt = input_prompt)
     keyword = classify_prompts(df, [input_prompt]).classifications[0].prediction
     generated = create_variations(create_prompt(input_prompt, keyword))
     list_of_gens = []
@@ -134,9 +141,13 @@ if input != "":
     predicted_class = classify_prompts(df, [input]).classifications[0].prediction
     st.subheader(predicted_class + KNOWN_ART_STYLES[predicted_class])
     button_click = st.button('Generate Variations', on_click = make_and_grade_variations(df, input_prompt = input))
-st.subheader("Suggestions will populate below. Try using keywords from them, and add them to your prompt!")
+#insert a section here for replicate?
 
-tab1, tab2 = st.tabs(["Output", "Prompt History"])
+if st.session_state.image != "":
+    st.image(st.session_state.image[0])
+
+st.subheader("Suggestions will populate below. Try using keywords from them, and add them to your prompt!")
+tab1, tab2 = st.tabs(["Output", "Generated Prompt History"])
 with tab1:
     st.write(st.session_state.output)
 
