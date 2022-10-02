@@ -94,6 +94,7 @@ if input != "":
     predicted_class = classify_prompts(df, [input]).classifications[0].prediction
     st.subheader(predicted_class + KNOWN_ART_STYLES[predicted_class])
     button_click = st.button('Generate Variations', on_click = make_and_grade_variations(df, input_prompt = input))
+st.subheader("Suggestions will populate below. Try using keywords from them, and add them to your prompt!")
 st.write(st.session_state.output)
 
 
