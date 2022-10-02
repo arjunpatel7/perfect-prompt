@@ -81,6 +81,7 @@ KNOWN_ART_STYLES = {
     "kawaii": ":heart:",
     "photorealistic": ":camera:",
     "water colors": ":rainbow:"
+    "steampunk" : ":steam_locomotive:"
 }
 
 
