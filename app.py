@@ -86,19 +86,45 @@ KNOWN_ART_STYLES = {
 
 st.title(':art: Perfect Prompt!')
 st.subheader('Get your prompt perfect before image generation, and save time!')
+
 flavor_text = """
 Have you ever used an image generation model like Stable Diffusion, but found that 
 using one takes forever? Never fear, Perfect Prompt to the rescue! Perfect Prompt combines classification 
  and generation large language models to help you come up with your... Perfect Prompt.
  
  Currently, Perfect Prompt works with five art styles: cyberpunk, cottage core, photorealistic, 
-  steampunk, and water colors. Type a prompt, and we match it to an art style!
- Then, the model uses a generator finetuned on over a thousand Stable Diffusion prompts to provide you 
- keyword suggestions for your next prompt. The generations are then filtered again by the classifier, and the top
- suggestions are shown to you! Take a few, throw them into your prompt, and repeat! Enjoy!
+  steampunk, and water colors. 
+  
+ 1. Type a prompt, and we match it to an art style!
+ 2. Then, the model uses a generator finetuned on over a thousand Stable Diffusion prompts to provide you 
+ keyword suggestions for your next prompt. 
+ 3. The generations are then filtered again by the classifier, and the top
+ suggestions are shown to you! 
+ 4. Take a few, throw them into your prompt, and repeat! Enjoy!
  """
-st.caption(flavor_text)
+with st.expander("Instructions, click here!"):
+    st.markdown(flavor_text)
 
+background_info = """
+This app was made with :heart: by Arjun Patel, a data scientist with an entrepreneurial spirit and a 
+burning desire to make cool stuff with NLP and generative models! You can contact me via 
+[Linkedin](https://www.linkedin.com/in/arjunkirtipatel/) or via email at arjunkirtipatel@gmail.com. 
+
+I made this model after seeing how difficult it was to iterate quickly using open source, free image 
+generation tools. Using Stable Diffusion on a Gradio/Streamlit app felt so powerful, but due to not
+paying for the GPUs, it can take up to a minute of time to get an image back. The other option is to 
+pay, which might not be scalable or easy for beginners to do and set up. I wanted to build a solution
+to quickly iterating on prompts for image generation, allowing for time and cost efficient image generation!
+
+The data sources include [Lexica](https://lexica.art), a fantastic search engine for tons of Stable Diffusion Prompts. I used 
+their API to retrieve training data for each category of art style for Perfect Prompt, as well as a prompt dump
+posted by the platform for generation training data. Thanks to Lexica for making these freely available!
+
+The classification and generation tasks are done using [Cohere](https://cohere.ai), as this app is a submission to a 
+hackathon hosted by [lablab.ai](https://lablab.ai). Thanks to both for the resources to build this cool app!
+"""
+with st.expander("How was this made?"):
+    st.markdown(background_info)
 
 df = preprocess_df(df)
 input = st.text_area('Enter your prospective prompt here', height=100, value = "")
