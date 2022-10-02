@@ -9,8 +9,9 @@ COHERE_KEY = st.secrets["cohere_key"]
 co = cohere.Client(f'{COHERE_KEY}')
 # using this script as an example: https://github.com/lablab-ai/streamlit-cohere-boilerplate/blob/main/myapp.py
 
-if 'output' not in st.session_state:
-    st.session_state['output'] = 'Output:'
+if ('output' not in st.session_state) and ('history' not in st.session_state):
+    st.session_state['output'] = []
+    st.session_state['history'] = []
 
 # function to accept a prompt and classify it?
 df = pd.read_csv("lexica_prompts_df.csv")
@@ -95,11 +96,11 @@ using one takes forever? Never fear, Perfect Prompt to the rescue! Perfect Promp
  Currently, Perfect Prompt works with five art styles: cyberpunk, cottage core, photorealistic, 
   steampunk, and water colors. 
   
- 1. Type a prompt, and we match it to an art style!
- 2. Then, the model uses a generator finetuned on over a thousand Stable Diffusion prompts to provide you 
- keyword suggestions for your next prompt. 
+ 1. Type a prompt, and we match it to an art style! 
+ 2. Then, the model uses a generator finetuned on over a thousand Stable Diffusion 
+ prompts to provide you keyword suggestions for your next prompt.\n
  3. The generations are then filtered again by the classifier, and the top
- suggestions are shown to you! 
+ suggestions are shown to you!\n
  4. Take a few, throw them into your prompt, and repeat! Enjoy!
  """
 with st.expander("Instructions, click here!"):
@@ -134,10 +135,15 @@ if input != "":
     st.subheader(predicted_class + KNOWN_ART_STYLES[predicted_class])
     button_click = st.button('Generate Variations', on_click = make_and_grade_variations(df, input_prompt = input))
 st.subheader("Suggestions will populate below. Try using keywords from them, and add them to your prompt!")
-st.write(st.session_state.output)
 
+tab1, tab2 = st.tabs(["Output", "Prompt History"])
+with tab1:
+    st.write(st.session_state.output)
 
-
+st.session_state.history = st.session_state.history + st.session_state.output
+with tab2:
+#with st.expander("History of output"):
+    st.write(st.session_state.history)
 # create a text box and button for submitting initial prompt
 
 # create a text area to dump variations/save them
