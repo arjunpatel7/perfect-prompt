@@ -42,15 +42,24 @@ def create_prompt(input_prompt, keyword):
     initial_prompt = f"Rephrase this prompt with more details, in a list:\n {input_prompt} \n"
     end_prompt = "More details:"
     final_prompts = initial_prompt + end_prompt
-    st.write(final_prompts)
     return final_prompts
 
-
-def make_and_grade_variations(df, input_prompt):
+@st.cache
+def make_and_grade_variations(df, input_prompt, num_options = 5):
     # try to guess intent of the prompt being made
+    #implement more generations
+    if len(input_prompt) == 0:
+        return
     keyword = classify_prompts(df, [input_prompt]).classifications[0].prediction
     generated = create_variations(create_prompt(input_prompt, keyword))
-    list_of_gens = [x.text for x in generated.generations]
+    list_of_gens = []
+    for x in range(0, num_options):
+        # will create num_options * 5 options
+        generated = create_variations(create_prompt(input_prompt, keyword))
+        gens_texts = [x.text for x in generated.generations]
+        list_of_gens = gens_texts + list_of_gens
+
+    #list_of_gens = [x.text for x in generated.generations]
     labels = classify_prompts(df, list_of_gens)
     # find prompts with highest probabilty
     print(labels.classifications)
@@ -59,23 +68,34 @@ def make_and_grade_variations(df, input_prompt):
         for l in output.confidence:
             if l.label == keyword:
                 probs.append(l.confidence)
-    return_df = pd.DataFrame(list_of_gens, probs, columns=["prompts"])
-    st.write(return_df.prompts)
-    return return_df.prompts
+    return_dict = {"prompts": list_of_gens, "probs": probs}
+    return_df = pd.DataFrame(return_dict)
+    return_df.sort_values(by = ["probs"], ascending=False).reset_index(drop=True)
+    #st.write(return_df)
+    st.session_state.output = list(return_df.prompts)[:10]
 
-st.title('Perfect Prompt!')
+
+KNOWN_ART_STYLES = {
+    "cottage core": ":mushroom:",
+    "cyberpunk": ":sunglasses:",
+    "kawaii": ":heart:",
+    "photorealistic": ":camera:",
+    "water colors": ":rainbow:"
+}
+
+
+st.title(':art: Perfect Prompt!')
 st.subheader('Get your prompt perfect before image generation, and save time!')
-st.write('''This is a simple **Streamlit** app that assist people in creating prompts for image generation.''')
 
 df = preprocess_df(df)
-input = st.text_area('Enter your prospective prompts  here', height=100)
-st.button('Generate Variations', on_click = make_and_grade_variations(df, input_prompt = input))
+input = st.text_area('Enter your prospective prompts  here', height=100, value = "")
+if input != "":
+    st.header("We think you are trying to make art in the following style...")
+    predicted_class = classify_prompts(df, [input]).classifications[0].prediction
+    st.subheader(predicted_class + KNOWN_ART_STYLES[predicted_class])
+    button_click = st.button('Generate Variations', on_click = make_and_grade_variations(df, input_prompt = input))
 st.write(st.session_state.output)
 
-# function to generate variations of the input prompt
-
-
-# function to take classification gradings and rank the best ones for given categories
 
 
 # create a text box and button for submitting initial prompt
