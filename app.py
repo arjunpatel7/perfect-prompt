@@ -50,7 +50,6 @@ def create_prompt(input_prompt, keyword):
     return final_prompts
 
 
-@st.cache
 def make_and_grade_variations(df, input_prompt, num_options=5):
     # try to guess intent of the prompt being made
     # implement more generations
