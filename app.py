@@ -78,10 +78,9 @@ def make_and_grade_variations(df, input_prompt, num_options = 5):
 KNOWN_ART_STYLES = {
     "cottage core": ":mushroom:",
     "cyberpunk": ":sunglasses:",
-    "kawaii": ":heart:",
     "photorealistic": ":camera:",
     "water colors": ":rainbow:",
-    "steampunk" : ":steam_locomotive:"
+    "steampunk": ":steam_locomotive:"
 }
 
 
@@ -93,7 +92,7 @@ using one takes forever? Never fear, Perfect Prompt to the rescue! Perfect Promp
  and generation large language models to help you come up with your... Perfect Prompt.
  
  Currently, Perfect Prompt works with five art styles: cyberpunk, cottage core, photorealistic, 
-  kawaii, and water colors. Type a prompt, and we match it to an art style!
+  steampunk, and water colors. Type a prompt, and we match it to an art style!
  Then, the model uses a generator finetuned on over a thousand Stable Diffusion prompts to provide you 
  keyword suggestions for your next prompt. The generations are then filtered again by the classifier, and the top
  suggestions are shown to you! Take a few, throw them into your prompt, and repeat! Enjoy!
