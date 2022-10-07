@@ -7,6 +7,10 @@ under a minute!
 Want to try it for yourself? Follow the instructions 
 below or [click here](https://arjunpatel7-perfect-prompt-app-mckes9.streamlitapp.com/
 ) for the deployed version!
+
+![demo gif](https://github.com/arjunpatel7/perfect-prompt/blob/main/perfect_prompt_shorter.gif)
+
+
 ## Requirements
 * cohere
 * streamlit
