@@ -1,7 +1,8 @@
 # perfect-prompt
 An approach to creating the perfect prompt for any image generation task. Type in a prompt, and
 Perfect Prompt will match it to one of five art styles (cyberpunk, steampunk, water colors, cottagecore, 
-and photorealistic) and provide generated variations of your prompt along these lines!
+and photorealistic) and provide generated variations of your prompt along these lines, in
+under a minute!
 
 Want to try it for yourself? Follow the instructions 
 below or [click here](https://arjunpatel7-perfect-prompt-app-mckes9.streamlitapp.com/
