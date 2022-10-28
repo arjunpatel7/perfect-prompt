@@ -105,7 +105,7 @@ Have you ever used an image generation model like Stable Diffusion, but found th
 using one takes forever? Never fear, Perfect Prompt to the rescue! Perfect Prompt combines classification 
  and generation large language models to help you come up with your... Perfect Prompt.
  
- Currently, Perfect Prompt works with five art styles: cyberpunk, cottage core, landscapes, 
+ Currently, Perfect Prompt works with six art styles: cyberpunk, cottage core, landscapes, 
   steampunk, architecture,  and water colors. 
   
  1. Type a prompt, and we match it to an art style! 
