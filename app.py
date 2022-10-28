@@ -28,13 +28,18 @@ def preprocess_df(df):
     return df
 
 
-def classify_prompts(df, prompts):
-    exs = [Example(p, l) for p, l in zip(df.prompts_without_keywords, df.keyword)]
-    # given a prompt or a list of ones, classifies them, and returns values
-    print(prompts)
-    response = co.classify(inputs=prompts, examples=exs)
-    return response
+# def classify_prompts(df, prompts):
+#     exs = [Example(p, l) for p, l in zip(df.prompts_without_keywords, df.keyword)]
+#     # given a prompt or a list of ones, classifies them, and returns values
+#     print(prompts)
+#     response = co.classify(inputs=prompts, examples=exs)
+#     return response
 
+
+def classify_prompts(df, prompts):
+    response = co.classify(model='40e50ea7-0586-4f53-ab2d-96296048993f-ft',
+    inputs=prompts)
+    return response
 
 def create_variations(prompt):
     # given a prompt and a keyword, creates variations of the prompts using the keyword
@@ -86,9 +91,10 @@ def make_and_grade_variations(df, input_prompt, num_options=3):
 KNOWN_ART_STYLES = {
     "cottage core": ":mushroom:",
     "cyberpunk": ":sunglasses:",
-    "photorealistic": ":camera:",
+    "landscapes": ":sunrise_over_mountains:",
     "water colors": ":rainbow:",
-    "steampunk": ":steam_locomotive:"
+    "steampunk": ":steam_locomotive:",
+    "architecture": ":house:"
 }
 
 st.title(':art: Perfect Prompt!')
@@ -99,8 +105,8 @@ Have you ever used an image generation model like Stable Diffusion, but found th
 using one takes forever? Never fear, Perfect Prompt to the rescue! Perfect Prompt combines classification 
  and generation large language models to help you come up with your... Perfect Prompt.
  
- Currently, Perfect Prompt works with five art styles: cyberpunk, cottage core, photorealistic, 
-  steampunk, and water colors. 
+ Currently, Perfect Prompt works with five art styles: cyberpunk, cottage core, landscapes, 
+  steampunk, architecture,  and water colors. 
   
  1. Type a prompt, and we match it to an art style! 
  2. Then, the model uses a generator finetuned on over a thousand Stable Diffusion 
