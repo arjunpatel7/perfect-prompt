@@ -9,10 +9,16 @@ co = cohere.Client(f'{COHERE_KEY}')
 
 # using this script as an example: https://github.com/lablab-ai/streamlit-cohere-boilerplate/blob/main/myapp.py
 
-if ('output' not in st.session_state) and ('history' not in st.session_state):
+if ('output' not in st.session_state):
     st.session_state['output'] = []
+
+if ('history' not in st.session_state):
     st.session_state['history'] = []
+
+if ('image' not in st.session_state):
     st.session_state['image'] = []
+
+if ('previous_prompts' not in st.session_state):
     st.session_state["previous_prompts"] = []
 
 # function to accept a prompt and classify it?
