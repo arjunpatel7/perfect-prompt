@@ -66,6 +66,7 @@ def make_and_grade_variations(df, input_prompt, num_options=3):
     keyword = classify_prompts(df, [input_prompt]).classifications[0].prediction
     generated = create_variations(create_prompt(input_prompt, keyword))
     list_of_gens = []
+
     for x in range(0, num_options):
         # will create num_options * 5 options
         generated = create_variations(create_prompt(input_prompt, keyword))
@@ -76,12 +77,17 @@ def make_and_grade_variations(df, input_prompt, num_options=3):
     labels = classify_prompts(df, list_of_gens)
     # find prompts with highest probability
     print(labels.classifications)
-    probs = []
-    for output in labels.classifications:
-        for l in output.confidence:
-            if l.label == keyword:
-                probs.append(l.confidence)
-    return_dict = {"prompts": list_of_gens, "probs": probs}
+    filtered_prompts = []
+
+    # pull out the classifications
+    # pull out only the predictions that have our keyword
+  
+    for output, prompt in zip(labels.classifications, list_of_gens):
+        if output.prediction == keyword:
+            filtered_prompts.append([prompt, output.confidence])
+
+    #return_dict = {"prompts": list_of_gens, "probs": probs}
+    return_dict = {"prompts": [x[0] for x in filtered_prompts], "probs": [x[1] for x in filtered_prompts]}
     return_df = pd.DataFrame(return_dict)
     return_df.sort_values(by=["probs"], ascending=False).reset_index(drop=True)
     # st.write(return_df)
