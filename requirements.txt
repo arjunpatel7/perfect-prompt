@@ -1,0 +1,4 @@
+cohere==2.9.1
+pandas==1.4.4
+replicate==0.4.0
+streamlit==1.11.0
